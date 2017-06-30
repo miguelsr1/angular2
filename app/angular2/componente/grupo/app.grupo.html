@@ -1,0 +1,44 @@
+<div>
+    <div id="CONTENTSIDE">
+        <div id="CONTENTSIDEindent">
+            <p-menubar [model]="menuBarra"></p-menubar>
+            <br/>
+            <p-panel header="Datos de generales del Grupo">
+                <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad" style="margin: 10px 0px" *ngIf="grupo">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2"><label for="txtId">Id</label></div>
+                        <div class="ui-grid-col-6"><input pInputText id="txtId" [(ngModel)]="grupo.idGrupo" disabled="true" /></div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2"><label for="txtNombre">Grupo</label></div>
+                        <div class="ui-grid-col-6"><input pInputText id="txtNombre" [(ngModel)]="grupo.nombreGrupo" /></div>
+                    </div>
+                </div>
+            </p-panel>
+            <br />
+            <p-dataTable [value]="lstGrupos" selectionMode="single" [(selection)]="selectedGrupo" (onRowSelect)="onRowSelect($event)" 
+                [paginator]="true" [rows]="10" [responsive]="true" >
+                <header>Mantenimiento de Grupos registrados</header>
+                <p-column field="idGrupo" header="id" [style]="{'width': '70px','text-align':'center'}"></p-column>
+                <p-column field="nombreGrupo" header="Nombre"></p-column>
+                <footer>
+                    <div class="ui-helper-clearfix" style="width:100%">
+                        <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button>
+                    </div>
+                </footer>
+            </p-dataTable>
+        </div>
+    </div>
+
+
+
+    <p-dialog header="Nuevo Grupo" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400">
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+                <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            </div> 
+        </footer>
+    </p-dialog>
+
+</div>

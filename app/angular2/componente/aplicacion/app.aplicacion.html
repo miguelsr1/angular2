@@ -1,0 +1,73 @@
+<div>
+    <div id="CONTENTSIDE">
+        <div id="CONTENTSIDEindent">
+            <p-growl [(value)]="msg"></p-growl>
+
+            <p-menubar [model]="itemsMenu"></p-menubar>
+            <br/>
+            <p-dataTable [value]="lstAplicaciones" selectionMode="single" [(selection)]="selectedApp" (onRowSelect)="onRowSelect($event)" 
+                [paginator]="true" [rows]="10" [responsive]="true" >
+                <header>Mantenimiento de Aplicaciones registradas</header>
+                <p-column field="idAplicacion" header="id" [style]="{'width': '50px','text-align':'center'}"></p-column>
+                <p-column field="administradorAplicacion" header="Administrador"></p-column>
+                <p-column header="Estado" [style]="{'width': '80px','text-align':'center'}">
+                    <template let-data="rowData"  pTemplate type="body">
+                        <span>{{ data.estadoAplicacion}}</span>
+                    </template>
+                </p-column>
+                <p-column field="nombreAplicacion" header="Nombre"></p-column>
+                <p-column field="unidadDuena" header="Unidad dueña"></p-column>
+                <p-column header="Fecha Prod." [style]="{'width': '120px','text-align':'center'}">
+                    <template let-data="rowData"  pTemplate type="body">
+                        <span>{{ data.fechaInicioProduccion | date : 'MM/dd/yyyy'}}</span>
+                    </template>
+                </p-column>
+                <p-column header="Eliminar" [style]="{'width': '80px','text-align':'center'}" >
+                    <template let-data="rowData" pTemplate type="body">
+                        <p-checkbox  binary="true" [(ngModel)]="data.eliminar" ></p-checkbox>
+                    </template>
+                </p-column>
+            </p-dataTable>
+
+            <div [hidden]="gifAjax" id="ajax_gif" style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" >
+                <i class="fa fa-spinner fa-pulse" style="color: black; font-size: 52px;"></i>
+            </div>
+        </div>
+    </div>
+
+
+    <p-dialog header="Datos de generales de la Aplicación" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="600">
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad" style="margin: 10px 0px" *ngIf="app">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-3"><label for="txtId">Id</label></div>
+                <div class="ui-grid-col-9"><input pInputText id="txtId" [(ngModel)]="app.idAplicacion" disabled="true" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-3"><label for="txtNombre">Administrador</label></div>
+                <div class="ui-grid-col-9"><input pInputText id="txtNombre" [(ngModel)]="app.administradorAplicacion" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-3"><label for="cboEstado">Estado</label></div>
+                <div class="ui-grid-col-9"><p-dropdown id="cboEstado" [options]="estadoApp" [(ngModel)]="app.estadoAplicacion" ></p-dropdown></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-3"><label for="cldFecha">Fecha producción</label></div>
+                <div class="ui-grid-col-9"><p-calendar id="cldFecha" [(ngModel)]="app.fechaInicioProduccion"></p-calendar></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-3"><label for="txtNombre">Nombre</label></div>
+                <div class="ui-grid-col-9"><input pInputText id="txtNombre" [(ngModel)]="app.nombreAplicacion" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-3"><label for="txtUnidad">Unidad dueña</label></div>
+                <div class="ui-grid-col-9"><input pInputText id="txtUnidad" [(ngModel)]="app.unidadDuena" /></div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-times-circle" (click)="cancelarEdicion()" label="Cancelar"></button>
+                <button type="button" pButton icon="fa-check-circle" (click)="aceptarEdicion()" label="Aceptar"></button>
+            </div> 
+        </footer>
+    </p-dialog>
+</div>
